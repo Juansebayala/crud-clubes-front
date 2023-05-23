@@ -1,20 +1,39 @@
 import { useParams } from 'react-router-dom';
 import useEquipo from './servicios/useEquipo';
-import Input from './Input';
+import Input from './elementos/Input';
+import { useContext } from 'react';
+import { UrlContext } from './contexto/UrlContext';
+import {
+  alertaCrearEditarEquipo,
+  alertaEquipoEditado,
+} from './elementos/alerta';
+import editarEquipo from './servicios/editarEquipo';
 
 function EditarEquipo() {
+  const { URLServicio } = useContext(UrlContext);
   const { tlaEquipo } = useParams();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const confirmacion = await alertaCrearEditarEquipo();
+    if (confirmacion.isConfirmed) {
+      const datos = event.target;
+      const formData = new FormData(datos);
+      const confirmacionEditado = await editarEquipo(
+        URLServicio,
+        tlaEquipo,
+        formData
+      );
+      confirmacionEditado.exito && alertaEquipoEditado();
+    }
+  };
+
   const equipo = useEquipo(tlaEquipo);
   return (
     <div className="w-75 m-auto">
       <h1 className="text-center">Editar equipo</h1>
       {equipo ? (
-        <form
-          id="crear-equipo"
-          action={`http://localhost:8080/equipo/${equipo.tla}/editar`}
-          method="PUT"
-          encType="multipart/form-data"
-        >
+        <form id="editar-equipo" onSubmit={handleSubmit}>
           <div className="w-50 m-auto">
             <div className="mb-3">
               <label htmlFor="nombre-input" className="form-label d-block">
