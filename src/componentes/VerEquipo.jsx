@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import useEquipo from './servicios/useEquipo';
 import styled from '@emotion/styled';
-import Boton from './Boton';
+import Boton from './elementos/Boton';
 
 const EscudoEquipo = styled.img`
   width: 25%;
@@ -38,6 +38,10 @@ function VerEquipo() {
           <tr>
             <td>Nombre</td>
             <td>{equipo.name}</td>
+          </tr>
+          <tr>
+            <td>País</td>
+            <td>{equipo.area.name}</td>
           </tr>
           <tr>
             <td>Fundación</td>

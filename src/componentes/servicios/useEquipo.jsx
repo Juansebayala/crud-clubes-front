@@ -1,17 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { UrlContext } from '../contexto/UrlContext';
 
 function useEquipo(tlaEquipo) {
   const [datos, setDatos] = useState(null);
+  const { URLServicio } = useContext(UrlContext);
 
   useEffect(() => {
     const ignorar = false;
 
-    const buscarEquipo = async () => {
-      fetch(`http://localhost:8080/equipo/${tlaEquipo}`)
+    const buscarEquipo = () => {
+      fetch(`${URLServicio}/equipo/${tlaEquipo}`)
         .then((res) => {
           return res.json();
         })
-        .then((res) => setDatos(res));
+        .then((equipo) => {
+          setDatos(equipo);
+        });
     };
 
     if (!ignorar) {

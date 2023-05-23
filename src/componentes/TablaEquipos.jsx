@@ -1,5 +1,6 @@
+import React from 'react';
 import useEquipos from './servicios/useEquipos';
-import Boton from './Boton';
+import Boton from './elementos/Boton';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
@@ -38,7 +39,7 @@ function TablaEquipos() {
         <tbody>
           {equipos?.map((equipo) => {
             return (
-              <>
+              <React.Fragment key={equipo.id}>
                 <tr className="container">
                   <td className="col">
                     <div>
@@ -73,7 +74,7 @@ function TablaEquipos() {
                     </div>
                   </td>
                 </tr>
-              </>
+              </React.Fragment>
             );
           })}
         </tbody>
